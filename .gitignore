@@ -11,6 +11,10 @@ Desktop.ini
 
 # Local dependencies and caches
 node_modules/
+.venv/
+venv/
+__pycache__/
+*.py[cod]
 .cache/
 .lighthouseci/
 
@@ -25,3 +29,7 @@ lighthouse-report*.json
 !.env.example
 *.pem
 *.key
+application_default_credentials.json
+credentials*.json
+*service-account*.json
+service_account*.json

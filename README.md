@@ -221,3 +221,63 @@ https://kamizonok39-wq.github.io/web-pracrice-god0/
 OpenSpec変更は `openspec/changes/build-ga4-learning-site/` にあります。仕様、設計、タスク、自己レビューを確認できます。
 
 公開前後の確認結果は [`verification.md`](verification.md) に記録します。
+
+## Google Analytics Data APIレポート
+
+`scripts/ga_report.py` は、公開サイトとは独立してローカルで動作する読み取り専用の分析スクリプトです。Google Analytics Data API v1とApplication Default Credentials（ADC）を使用し、認証情報や秘密鍵をリポジトリへ保存しません。
+
+### 前提条件
+
+- Python 3.10以上
+- Google Cloud CLI（`gcloud`）
+- 対象Google CloudプロジェクトでGoogle Analytics Data APIが有効
+- ADCで認証するGoogleアカウントに、対象GA4プロパティの「閲覧者」以上の権限
+- GA4管理画面の「管理」→「プロパティの設定」に表示される数値のプロパティID
+
+`G-PE33N5234J` はWebデータストリームの測定IDです。Data APIのプロパティ指定には使用できません。
+
+### セットアップ
+
+PowerShellで仮想環境を作成し、依存関係をインストールします。
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+```
+
+ADCへログインします。Google Cloud CLIの標準OAuthクライアントではAnalyticsスコープが制限される場合があるため、Google Auth Platformで作成した「デスクトップアプリ」のOAuthクライアントJSONを使用します。JSONは必ずリポジトリ外へ保存してください。生成されるADCもユーザープロファイルに保存され、リポジトリには保存されません。
+
+```powershell
+gcloud auth application-default login `
+  --client-id-file="C:\path\outside-repository\oauth-client.json" `
+  --scopes="https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/analytics.readonly"
+```
+
+`cloud-platform` は現在のGoogle Cloud CLIがADCログイン時に要求するスコープです。レポートスクリプトがGoogle Analyticsへ要求するスコープは `analytics.readonly` のみに固定しています。
+
+認証確認だけを行う場合:
+
+```powershell
+.\.venv\Scripts\python.exe scripts\ga_report.py --check-auth
+```
+
+対象の数値プロパティIDを現在のPowerShellセッションへ設定し、レポートを実行します。
+
+```powershell
+$env:GA_PROPERTY_ID = "123456789"
+.\.venv\Scripts\python.exe scripts\ga_report.py
+```
+
+`.env.example` は設定値の形式を示すだけのファイルです。スクリプトは秘密情報の誤読込を避けるため、`.env` を自動では読み込みません。必要な値は実行環境から渡してください。
+
+### 出力されるレポート
+
+- 今日を含む過去7日間の日別 `page_view`
+- ページパス別 `page_view`
+- イベント名別イベント数
+- `cta_click` の件数
+- `outbound_click` の件数
+- `scroll` と `scroll_depth` の内訳および合計
+- リアルタイムの `activeUsers`
+
+認証には `https://www.googleapis.com/auth/analytics.readonly` だけを明示的に要求します。ADC、`.env`、認証JSON、サービスアカウント鍵、仮想環境、Pythonキャッシュは `.gitignore` の対象です。

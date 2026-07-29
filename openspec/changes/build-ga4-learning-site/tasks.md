@@ -53,3 +53,11 @@
 - [ ] 7.5 Test measurement-ID missing, consent denied, consent granted, invalid variant, and blocked-GA4 failure paths without uncaught errors.
 - [x] 7.6 Verify each event and required parameter in GA4 DebugView using a test property, with no duplicate events or personal information.
 - [ ] 7.7 Review every OpenSpec scenario and record evidence that each acceptance condition passes before publishing.
+
+## 8. Local Google Analytics Data API reporting
+
+- [x] 8.1 Specify a local read-only Python reporting workflow using ADC and numeric `GA_PROPERTY_ID`.
+- [x] 8.2 Implement seven-day page-view, page, event, CTA, outbound-link, scroll, and realtime active-user reports.
+- [x] 8.3 Add an authentication-only command and actionable missing-credential/property errors.
+- [x] 8.4 Add Python dependencies, `.env.example`, credential exclusions, and README setup instructions.
+- [x] 8.5 Run an authenticated read test against the configured GA4 property without committing credentials.
