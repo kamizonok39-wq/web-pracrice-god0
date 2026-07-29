@@ -44,4 +44,30 @@
 
 ## 公開後確認
 
-GitHub Pages公開後に結果を追記する。
+実施日: 2026-07-29
+
+公開URL: `https://kamizonok39-wq.github.io/web-pracrice-god0/`
+
+自動確認:
+
+- GitHub Pagesを `main` ブランチの `/` から公開: 完了
+- トップ、商品一覧・詳細、記事一覧・詳細、問い合わせ完了の8ページ: HTTP 200
+- CSSとJavaScript: HTTP 200
+- 全ページから参照される内部リンクと静的リソース: HTTP 200
+- リポジトリ名を含むサブディレクトリ配信: パス切れなし
+- 公開されたGA4測定ID: `G-PE33N5234J`
+- 公開された設定: `debug: false`
+- `debug_mode`: `debug` が真の場合だけ追加する実装であり、本番イベントには付与しない
+
+公開後Lighthouse:
+
+- Lighthouse CLIの再実行を試みたが、このセッションではNode.js/npmがPATHから利用できず実行不能
+- Google PageSpeed Insights APIによる代替実行も、APIのレート制限（HTTP 429）により完了せず
+- 同一コミット内容に対する公開前のモバイルLighthouse結果は Performance 100、Accessibility 100、Best Practices 96、SEO 100、CLS 0
+
+ブラウザ操作が必要な残確認:
+
+- 公開URLでのConsoleエラー確認
+- Networkの `collect?v=2` で `page_view`、CTA、外部リンク、スクロールイベントと `debug_mode` 非付与を確認
+- 320px、390px、デスクトップ幅でキーボード操作・フォーカス・横スクロール・CTA A/B表示を確認
+- 測定ID欠落、同意拒否、無効variant、GA4ブロック時の異常系を確認
