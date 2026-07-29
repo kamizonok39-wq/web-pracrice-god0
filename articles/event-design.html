@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html lang="ja">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="GA4イベントの発火条件とパラメータを設計する基本。">
+  <title>イベント名から始めない計測設計｜Measure Garden</title>
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <script defer src="../assets/js/ga4-config.js"></script><script defer src="../assets/js/analytics.js"></script><script defer src="../assets/js/experiment.js"></script><script defer src="../assets/js/tracking.js"></script>
+</head>
+<body data-page-type="article-detail" data-content-id="event-design">
+  <a class="skip-link" href="#main">本文へ移動</a>
+  <header class="site-header"><div class="header-inner"><a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">M</span><span>Measure Garden</span></a><nav class="site-nav" aria-label="メインナビゲーション"><ul><li><a href="../index.html">トップ</a></li><li><a href="../products/index.html">商品</a></li><li><a href="index.html" aria-current="page">記事</a></li></ul></nav></div></header>
+  <main id="main" class="page-shell">
+    <nav class="breadcrumb" aria-label="パンくず"><ol><li><a href="../index.html">トップ</a></li><li><a href="index.html">記事一覧</a></li><li aria-current="page">イベント設計</li></ol></nav>
+    <header class="page-hero"><p class="eyebrow">EVENT DESIGN</p><h1>イベント名から始めない計測設計</h1><p class="lead">先に「何を知りたいか」を決めると、イベント名とパラメータは後から自然に決まります。</p></header>
+    <div class="detail-layout">
+      <article class="prose">
+        <h2>1. 判断したいことを言葉にする</h2>
+        <p>たとえば「CTAのB案はA案より分かりやすいか」という問いです。単にクリックを数えるだけでは、どちらが何回表示されたかが分かりません。そこで表示を表す<code>experiment_impression</code>と、成果を表す<code>cta_click</code>を対にします。</p>
+        <p>良い問いは、同じ条件で比較できる単位を持っています。ページ、CTA、記事、バリエーションなど、分析軸として必要なものだけを匿名パラメータにします。</p>
+        <h2>2. 発火条件を一文で書く</h2>
+        <p>「CTAがクリックされたとき」だけでは、キーボード操作や遷移前の送信を見落とします。本サイトでは「<code>data-ga-event="cta_click"</code>を持つリンクまたはボタンが実行されたとき」とコードで追える条件にしています。</p>
+        <p>同じ操作が複数のリスナーに拾われないよう、クリック処理はdocumentへのイベント委譲にまとめています。スクロール率は到達済みの閾値をSetへ保存し、同じページ表示で一度だけ送ります。</p>
+        <h2>3. パラメータを最小限にする</h2>
+        <p>分析に使わない情報は送らないことが、読みやすさとプライバシーの両方に効きます。CTAならID、表示文言、配置、遷移先、実験ID、バリエーションだけで比較できます。</p>
+        <h2 id="privacy">4. 送らないものを決める</h2>
+        <p>氏名、メールアドレス、電話番号、住所、自由入力、ユーザーIDはイベントへ含めません。本サイトには入力フォーム自体がなく、問い合わせ完了ページも模擬の到達点です。</p>
+        <p>実装ではイベント名ごとに許可するパラメータを契約としてまとめ、不足や個人情報らしい値を検出したイベントは破棄します。</p>
+        <h2>5. DebugViewで一件ずつ確かめる</h2>
+        <p>大量のレポートを見る前に、操作とイベントが一対一になっているかをDebugViewで確かめます。測定IDがない場合も、ブラウザコンソールで発火理由と予定パラメータを確認できます。</p>
+        <div class="notice"><strong>次のステップ:</strong> 表示母数を使った比較は、関連記事の「小さなA/Bテストの読み方」で確認できます。</div>
+        <p><a href="ab-testing.html" data-ga-event="article_navigation" data-source-content-id="event-design" data-destination-article-id="ab-testing" data-link-position="related-bottom">小さなA/Bテストの読み方へ</a></p>
+      </article>
+      <aside class="aside-card"><span class="tag">Checklist</span><h2>設計の順番</h2><ol><li>問い</li><li>行動</li><li>発火条件</li><li>パラメータ</li><li>確認方法</li></ol><p><a href="index.html">記事一覧へ戻る</a></p><p><a href="https://developers.google.com/analytics/devguides/collection/ga4/events" target="_blank" rel="noopener noreferrer" data-link-position="article-aside">Google公式イベントガイド</a></p></aside>
+    </div>
+    <div class="consent-card" role="group" aria-label="アクセス解析設定"><div><strong>学習用アクセス解析</strong><p>許可後のみGoogle tagを読み込みます。</p><span class="consent-status" data-consent-status aria-live="polite">解析：無効</span></div><div class="consent-actions"><button class="button" type="button" data-analytics-consent="grant" aria-pressed="false">有効にする</button><button class="button button-secondary" type="button" data-analytics-consent="deny" aria-pressed="true">無効にする</button></div></div>
+  </main>
+  <footer class="site-footer"><div class="footer-inner"><div><strong>Measure Garden</strong><br><small>GA4学習用デモ</small></div><div class="footer-links"><a href="index.html">記事一覧</a><a href="../products/index.html">商品</a><a href="../README.md">設定ガイド</a></div></div></footer>
+</body>
+</html>

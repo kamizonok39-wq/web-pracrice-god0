@@ -1,0 +1,27 @@
+# Operating system files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Editors
+.idea/
+.vscode/
+*.swp
+*~
+
+# Local dependencies and caches
+node_modules/
+.cache/
+.lighthouseci/
+
+# Generated reports and logs
+*.log
+lighthouse-report*.html
+lighthouse-report*.json
+
+# Local environment and credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key

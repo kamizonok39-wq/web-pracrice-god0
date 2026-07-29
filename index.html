@@ -1,0 +1,162 @@
+<!DOCTYPE HTML>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="画面操作とコードを見比べながらGA4イベント計測を学べる静的デモサイト。">
+  <title>Measure Garden｜GA4を触って学ぶ</title>
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <script defer src="assets/js/ga4-config.js"></script>
+  <script defer src="assets/js/analytics.js"></script>
+  <script defer src="assets/js/experiment.js"></script>
+  <script defer src="assets/js/tracking.js"></script>
+</head>
+<body data-page-type="top" data-content-id="top">
+  <a class="skip-link" href="#main">本文へ移動</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="index.html" aria-label="Measure Garden トップ">
+        <span class="brand-mark" aria-hidden="true">M</span>
+        <span>Measure Garden</span>
+      </a>
+      <nav class="site-nav" aria-label="メインナビゲーション">
+        <ul>
+          <li><a href="index.html" aria-current="page">トップ</a></li>
+          <li><a href="products/index.html">商品</a></li>
+          <li><a href="articles/index.html">記事</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <div class="page-shell hero">
+      <div>
+        <p class="eyebrow">GA4 PRACTICE FIELD</p>
+        <h1>クリックの先を、観測しよう。</h1>
+        <p class="lead">Measure Gardenは、ページを巡りながらGA4イベントの「いつ・なぜ・何を送るか」を学ぶ架空の教材サイトです。</p>
+        <div class="button-row">
+          <a class="button" href="products/index.html"
+             data-ga-event="cta_click" data-cta-id="top-start-products"
+             data-cta-position="hero">商品導線を試す</a>
+          <a class="button button-secondary" href="articles/index.html"
+             data-ga-event="cta_click" data-cta-id="top-start-articles"
+             data-cta-position="hero">記事で学ぶ</a>
+        </div>
+      </div>
+      <div class="hero-panel" role="img" aria-label="学習できる指標は、6イベント、2導線、A/B比較です">
+        <div class="metric-stack">
+          <div class="metric"><strong>6 events</strong><span>明示的なイベント契約</span></div>
+          <div class="metric"><strong>2 journeys</strong><span>商品関心と記事回遊</span></div>
+          <div class="metric"><strong>A / B</strong><span>CTA文言・配置の比較</span></div>
+        </div>
+      </div>
+    </div>
+
+    <section class="section section-tint">
+      <div class="page-shell">
+        <div class="section-heading">
+          <div><p class="kicker">How it works</p><h2>4ステップで観測する</h2></div>
+          <p>測定IDが未設定でも、ブラウザコンソールにはイベントと発火理由が表示されます。</p>
+        </div>
+        <ol class="steps">
+          <li><strong>解析を許可</strong><br>この端末での学習用計測を選ぶ</li>
+          <li><strong>ページを回遊</strong><br>商品や記事のリンクを操作する</li>
+          <li><strong>コードを確認</strong><br><code>data-ga-*</code>と発火条件を見る</li>
+          <li><strong>GA4で比較</strong><br>DebugViewと探索で結果を確認する</li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="page-shell">
+        <div class="section-heading">
+          <div><p class="kicker">Products</p><h2>架空の分析キット</h2></div>
+          <a href="products/index.html">商品をすべて見る</a>
+        </div>
+        <div class="grid">
+          <article class="card">
+            <div class="card-visual" aria-hidden="true">01</div>
+            <span class="tag">Journey</span>
+            <h3>導線観測スターター</h3>
+            <p>CTAとページ遷移を追い、行動のつながりを読む練習キット。</p>
+            <a href="products/journey-kit.html">詳細を見る</a>
+          </article>
+          <article class="card">
+            <div class="card-visual" aria-hidden="true">02</div>
+            <span class="tag">Content</span>
+            <h3>読了インサイトノート</h3>
+            <p>記事回遊とスクロール率から、コンテンツの読み方を観測します。</p>
+            <a href="products/content-kit.html">詳細を見る</a>
+          </article>
+          <article class="card">
+            <div class="card-visual" aria-hidden="true">A/B</div>
+            <span class="tag">Experiment</span>
+            <h3>CTA比較ラボ</h3>
+            <p>同じ目的のCTAを2種類で表示し、クリック率を比較します。</p>
+            <a href="products/journey-kit.html?variant=b">Bパターンを試す</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-tint">
+      <div class="page-shell">
+        <div class="section-heading">
+          <div><p class="kicker">Reading</p><h2>観測の考え方</h2></div>
+          <a href="articles/index.html">記事をすべて見る</a>
+        </div>
+        <div class="grid">
+          <article class="card">
+            <span class="tag">Event design</span>
+            <h3>イベント名から始めない計測設計</h3>
+            <p>まず知りたい行動を決め、発火条件とパラメータへ分解します。</p>
+            <a href="articles/event-design.html"
+               data-ga-event="article_navigation" data-source-content-id="top"
+               data-destination-article-id="event-design" data-link-position="featured-card">記事を読む</a>
+          </article>
+          <article class="card">
+            <span class="tag">Experiment</span>
+            <h3>小さなA/Bテストの読み方</h3>
+            <p>表示母数を忘れず、クリック数だけで判断しない方法を学びます。</p>
+            <a href="articles/ab-testing.html"
+               data-ga-event="article_navigation" data-source-content-id="top"
+               data-destination-article-id="ab-testing" data-link-position="featured-card">記事を読む</a>
+          </article>
+          <article class="card">
+            <span class="tag">Privacy</span>
+            <h3>送らないデータを先に決める</h3>
+            <p>学習用計測でも個人情報を扱わないための境界を確認します。</p>
+            <a href="articles/event-design.html#privacy"
+               data-ga-event="article_navigation" data-source-content-id="top"
+               data-destination-article-id="event-design" data-link-position="featured-card">該当箇所を読む</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="page-shell">
+        <div class="consent-card" role="group" aria-labelledby="consent-title">
+          <div>
+            <strong id="consent-title">学習用アクセス解析</strong>
+            <p>個人情報は送りません。許可するまでGoogle tagは読み込まれません。</p>
+            <span class="consent-status" data-consent-status aria-live="polite">解析：無効</span>
+          </div>
+          <div class="consent-actions">
+            <button class="button" type="button" data-analytics-consent="grant" aria-pressed="false">解析を有効にする</button>
+            <button class="button button-secondary" type="button" data-analytics-consent="deny" aria-pressed="true">無効にする</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div><strong>Measure Garden</strong><br><small>実在の商品販売・問い合わせ受付を行わないGA4学習用デモです。</small></div>
+      <div class="footer-links"><a href="products/index.html">商品</a><a href="articles/index.html">記事</a><a href="README.md">設定ガイド</a></div>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>
+<html lang="ja">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="CTAの表示数とクリック数からA/Bテストを読む基本。">
+  <title>小さなA/Bテストの読み方｜Measure Garden</title>
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <script defer src="../assets/js/ga4-config.js"></script><script defer src="../assets/js/analytics.js"></script><script defer src="../assets/js/experiment.js"></script><script defer src="../assets/js/tracking.js"></script>
+</head>
+<body data-page-type="article-detail" data-content-id="ab-testing">
+  <a class="skip-link" href="#main">本文へ移動</a>
+  <header class="site-header"><div class="header-inner"><a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">M</span><span>Measure Garden</span></a><nav class="site-nav" aria-label="メインナビゲーション"><ul><li><a href="../index.html">トップ</a></li><li><a href="../products/index.html">商品</a></li><li><a href="index.html" aria-current="page">記事</a></li></ul></nav></div></header>
+  <main id="main" class="page-shell">
+    <nav class="breadcrumb" aria-label="パンくず"><ol><li><a href="../index.html">トップ</a></li><li><a href="index.html">記事一覧</a></li><li aria-current="page">A/Bテスト</li></ol></nav>
+    <header class="page-hero"><p class="eyebrow">EXPERIMENT BASICS</p><h1>小さなA/Bテストの読み方</h1><p class="lead">クリック数だけを比べず、「何回表示されたうちの何回か」を同じ定義で見ます。</p></header>
+    <div class="detail-layout">
+      <article class="prose">
+        <h2>表示数が母数になる</h2><p>Aが20クリック、Bが15クリックでも、Aが1,000回表示され、Bが300回表示されたなら見え方は変わります。CTAクリック率は<code>cta_click ÷ experiment_impression</code>で計算します。</p>
+        <h2>割り当てを安定させる</h2><p>ページを開くたびに表示が変わると、学習者自身がAとBを確認しづらくなります。このサイトではセッション中だけ同じバリエーションを維持します。長期IDやフィンガープリントは使いません。</p>
+        <h2>URLで再現する</h2><p>商品詳細URLへ<code>?variant=a</code>または<code>?variant=b</code>を加えると、表示を固定できます。レビューやデバッグで同じ状態を共有するための仕組みです。</p>
+        <h2>少量データを断定に使わない</h2><p>このサイトの実験は、イベント設計と集計方法を学ぶためのものです。訪問数が少ない状態の差を、統計的な優劣や事業判断として断定してはいけません。</p>
+        <h2>探索レポートを組み立てる</h2><p><code>experiment_id</code>と<code>variant_id</code>をイベントスコープのカスタムディメンションに登録し、行にバリエーション、指標にイベント数を置きます。表示とクリックを分けてフィルタすると比較できます。</p>
+        <p><a href="event-design.html" data-ga-event="article_navigation" data-source-content-id="ab-testing" data-destination-article-id="event-design" data-link-position="related-bottom">イベント設計の記事へ戻る</a></p>
+      </article>
+      <aside class="aside-card"><span class="tag">Try it</span><h2>A/Bを固定</h2><p><a href="../products/journey-kit.html?variant=a">バリエーションA</a></p><p><a href="../products/journey-kit.html?variant=b">バリエーションB</a></p><p><a href="https://support.google.com/analytics/answer/14240153" target="_blank" rel="noopener noreferrer" data-link-position="article-aside">Google公式 DebugView</a></p><p><a href="index.html">記事一覧へ戻る</a></p></aside>
+    </div>
+    <div class="consent-card" role="group" aria-label="アクセス解析設定"><div><strong>学習用アクセス解析</strong><p>個人情報は送信しません。</p><span class="consent-status" data-consent-status aria-live="polite">解析：無効</span></div><div class="consent-actions"><button class="button" type="button" data-analytics-consent="grant" aria-pressed="false">有効にする</button><button class="button button-secondary" type="button" data-analytics-consent="deny" aria-pressed="true">無効にする</button></div></div>
+  </main>
+  <footer class="site-footer"><div class="footer-inner"><div><strong>Measure Garden</strong><br><small>GA4学習用デモ</small></div><div class="footer-links"><a href="index.html">記事一覧</a><a href="../products/index.html">商品</a><a href="../README.md">設定ガイド</a></div></div></footer>
+</body>
+</html>
