@@ -26,3 +26,10 @@ This repository contains a learning-oriented static website for practicing Googl
 - Validate OpenSpec artifacts before implementation.
 - Verify all acceptance criteria before declaring implementation complete.
 - Document GA4 measurement ID setup and GitHub Pages deployment in `README.md`.
+
+## GitHub communication
+
+- Pull Requestのタイトルと本文は日本語で記述する。
+- Pull Requestのコメント、レビュー依頼、レビューへの返信も原則として日本語で記述する。
+- コード、コマンド、ファイル名、API名、エラーメッセージ、外部仕様からの引用は、正確性のため原文のままでよい。
+- Pull Request本文には、変更内容、変更理由、利用者・開発者への影響、実施した検証を含める。
