@@ -5,6 +5,8 @@
 > GA4分析用の合成アクセスを生成する場合は、[`PLAYWRIGHT_SYNTHETIC_TRAFFIC_INSTRUCTIONS.md`](PLAYWRIGHT_SYNTHETIC_TRAFFIC_INSTRUCTIONS.md) を参照してください。
 >
 > GA4の数値取得から改善分析、改修、日本語PR作成までを再開する場合は、[`GA4_ANALYSIS_AND_IMPROVEMENT_WORKFLOW.md`](GA4_ANALYSIS_AND_IMPROVEMENT_WORKFLOW.md) を参照してください。
+>
+> GA4データ取得の項目、切り口、解釈、完了条件は、[`GA4_DATA_ACQUISITION_RUBRIC.md`](GA4_DATA_ACQUISITION_RUBRIC.md) を正本として参照してください。
 
 ## 現在の実施状態
 
@@ -18,13 +20,16 @@
 - 自動テスト: 12件合格
 - 公開サイト3セッション再検証: 全件成功
 - OpenSpec `add-playwright-synthetic-traffic`: 全タスク完了
+- GA4分析に基づく導線観測スターターのCTA順序改善: 実装・ローカル検証済み
 
 詳細な証跡は [`verification.md`](verification.md)、テスト仕様は [`test-cases/README.md`](openspec/changes/add-playwright-synthetic-traffic/test-cases/README.md) を参照してください。
+
+CTA順序改善の視覚比較は [`before.png`](docs/screenshots/journey-cta-order/before.png) と [`after.png`](docs/screenshots/journey-cta-order/after.png) で確認できます。
 
 ## 現在の残タスク
 
 1. GA4通常レポートへ反映された合成アクセスをData APIで取得する。
-2. UTM campaign単位で数値とページ構成を照合し、改善候補を作る。
+2. 原則としてcampaignで除外せず、GA4全体の数値から訪問傾向と改善候補を作る。
 3. ユーザー承認後、改善用OpenSpec、サイト改修、検証、日本語PRを実施する。
 4. 独立した環境確認として、新規または初期化したWindows端末でセットアップ手順を再現する。
 5. 補足的な手動確認として、レスポンシブ・キーボード操作と計測異常系を確認する。

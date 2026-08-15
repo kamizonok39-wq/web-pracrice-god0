@@ -102,7 +102,7 @@
 - 確認時の通常レポート: 過去7日間の `page_view` は反映待ちで0
 - 確認時のリアルタイム: `activeUsers` 1、`page_view` 6
 - リアルタイムイベント: `scroll_depth` 15、`scroll` 5、`article_navigation` 3、`cta_click` 2、`experiment_impression` 1、`session_start` 1、`first_visit` 1、`user_engagement` 1
-- 改善分析は通常レポート反映後に実施し、合成アクセスのUTM campaignを明示して集計する。
+- 当初はUTM campaign単位の集計を想定していたが、2026-08-15に合成アクセスを模擬訪問データとして扱い、原則としてcampaignで除外しない方針へ更新した。
 
 ### 2026-08-15 再認証・標準期間取得
 
@@ -200,3 +200,45 @@
 - レスポンシブ、キーボード操作、計測異常系の補足的な手動確認
 
 合成アクセステスト仕様には未完了タスクがなく、以後の再実行は回帰確認または分析データ追加として扱う。
+
+## 導線観測スターターのCTA順序改善
+
+実施日: 2026-08-15
+
+GA4観測事実（2026-06-01以降）:
+
+- 対象ページ: `導線観測スターター｜Measure Garden`
+- スクロール50%: 24イベント、21ユーザー
+- スクロール75%: 12イベント、9ユーザー
+- 50%→75%のイベント減少率: 50%
+- ページ利用: 29ユーザー
+- CTA利用: 10ユーザー（34.5%）
+- 記事遷移: 17ユーザー（58.6%）
+
+変更:
+
+- Variant A主要CTAを関連記事より前へ移動した。
+- 関連記事をCTA後の共通 `next-step-card` として整理した。
+- Variant Bの上部CTAを維持した。
+- `cta_click`、`article_navigation` の属性と遷移先を維持した。
+
+視覚証跡:
+
+- 変更前: `docs/screenshots/journey-cta-order/before.png`
+- 変更後: `docs/screenshots/journey-cta-order/after.png`
+- 条件: Variant A、1440×1200、deviceScaleFactor 1、`article.prose`
+
+ローカル検証:
+
+- Variant A CTAが関連記事より前: 合格
+- Variant B CTAが関連記事より前: 合格
+- CTA・記事リンクの可視性: 合格
+- イベント属性・遷移先の維持: 合格
+
+公開後に再確認する指標:
+
+- 50%→75%スクロール到達イベント減少率
+- 対象ページのCTA利用ユーザー率
+- 対象ページの記事遷移ユーザー率
+
+GA4反映後に変更前基準値と比較する。合成アクセスを含む全アクセスを対象とし、campaignでは除外しない。
