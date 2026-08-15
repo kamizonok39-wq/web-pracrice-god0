@@ -1,0 +1,20 @@
+{
+  "name": "measure-garden-automation",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "validate": "node scripts/validate-site.mjs",
+    "synthetic:plan": "node scripts/synthetic-traffic/run.mjs --plan-only",
+    "synthetic:dry": "node scripts/synthetic-traffic/run.mjs --sessions 3",
+    "synthetic:run": "node scripts/synthetic-traffic/run.mjs",
+    "test:synthetic": "node --test tests/synthetic-traffic-*.test.mjs",
+    "test:synthetic:plan": "node --test tests/synthetic-traffic-plan.test.mjs",
+    "test:synthetic:origin": "node --test tests/synthetic-traffic-origin.test.mjs",
+    "test:synthetic:report": "node --test tests/synthetic-traffic-report.test.mjs",
+    "test:synthetic:events": "node --test tests/synthetic-traffic-events.test.mjs"
+  },
+  "devDependencies": {
+    "playwright": "1.62.1"
+  }
+}

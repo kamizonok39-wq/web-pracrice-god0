@@ -1,6 +1,33 @@
 # Measure Garden
 
 > AIエージェントとMCPを使って環境構築・作業再開する場合は、最初に [`AI_AGENT_MCP_SETUP.md`](AI_AGENT_MCP_SETUP.md) を読んでください。
+>
+> GA4分析用の合成アクセスを生成する場合は、[`PLAYWRIGHT_SYNTHETIC_TRAFFIC_INSTRUCTIONS.md`](PLAYWRIGHT_SYNTHETIC_TRAFFIC_INSTRUCTIONS.md) を参照してください。
+>
+> GA4の数値取得から改善分析、改修、日本語PR作成までを再開する場合は、[`GA4_ANALYSIS_AND_IMPROVEMENT_WORKFLOW.md`](GA4_ANALYSIS_AND_IMPROVEMENT_WORKFLOW.md) を参照してください。
+
+## 現在の実施状態
+
+最終更新: 2026-08-15
+
+- 学習用静的サイト: 実装・GitHub Pages公開済み
+- GA4イベント計測、Consent Mode、CTA A/B: 実装・検証済み
+- Playwright合成アクセス: 実装済み。画面表示あり／なし、1～5並列、50セッション実行に対応
+- 50セッション正式実行: 画面表示あり・3並列で全件成功済み
+- 安全性とイベントの個別テスト: ST-SEC-001、ST-SEC-002、ST-GA4-001を完了
+- 自動テスト: 12件合格
+- 公開サイト3セッション再検証: 全件成功
+- OpenSpec `add-playwright-synthetic-traffic`: 全タスク完了
+
+詳細な証跡は [`verification.md`](verification.md)、テスト仕様は [`test-cases/README.md`](openspec/changes/add-playwright-synthetic-traffic/test-cases/README.md) を参照してください。
+
+## 現在の残タスク
+
+1. GA4通常レポートへ反映された合成アクセスをData APIで取得する。
+2. UTM campaign単位で数値とページ構成を照合し、改善候補を作る。
+3. ユーザー承認後、改善用OpenSpec、サイト改修、検証、日本語PRを実施する。
+4. 独立した環境確認として、新規または初期化したWindows端末でセットアップ手順を再現する。
+5. 補足的な手動確認として、レスポンシブ・キーボード操作と計測異常系を確認する。
 
 GA4（Google Analytics 4）のイベント計測を、画面操作とソースコードを見比べながら学ぶ静的デモサイトです。架空の商品・記事を回遊し、イベントの発火条件、パラメータ、DebugViewでの見え方を確認できます。
 

@@ -12,6 +12,7 @@ Desktop.ini
 # Local dependencies and caches
 node_modules/
 .venv/
+.playwright-output/
 venv/
 __pycache__/
 *.py[cod]

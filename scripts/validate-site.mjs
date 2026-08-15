@@ -3,12 +3,20 @@ import { dirname, extname, join, normalize, relative, resolve } from "node:path"
 
 const root = resolve(import.meta.dirname, "..");
 const errors = [];
+const ignoredDirectories = new Set([
+  ".git",
+  ".codex",
+  ".playwright-output",
+  ".venv",
+  "node_modules",
+  "openspec",
+]);
 
 async function walk(directory) {
   const entries = await readdir(directory, { withFileTypes: true });
   const files = [];
   for (const entry of entries) {
-    if (entry.name === ".git" || entry.name === ".codex" || entry.name === "openspec") continue;
+    if (entry.isDirectory() && ignoredDirectories.has(entry.name)) continue;
     const path = join(directory, entry.name);
     if (entry.isDirectory()) files.push(...await walk(path));
     else files.push(path);
