@@ -120,6 +120,20 @@ for (const [index, html] of productPages.entries()) {
   report(new Set(destinations).size === 1, `Product detail ${index + 1}: A/B destinations differ.`);
 }
 
+const journeyPage = productPages[0];
+const journeyVariantACta = journeyPage.indexOf(">詳しく相談する</a>");
+const journeyRelatedArticle = journeyPage.indexOf(">イベント名から始めない計測設計</a>");
+report(journeyVariantACta >= 0, "Journey detail: Variant A CTA is missing.");
+report(journeyRelatedArticle >= 0, "Journey detail: related article link is missing.");
+report(
+  journeyVariantACta < journeyRelatedArticle,
+  "Journey detail: Variant A CTA must appear before the related article link.",
+);
+report(
+  journeyPage.includes('class="next-step-card"'),
+  "Journey detail: shared next-step section is missing.",
+);
+
 if (errors.length) {
   console.error(`Site validation failed with ${errors.length} issue(s):`);
   errors.forEach((error) => console.error(`- ${error}`));

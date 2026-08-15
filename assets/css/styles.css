@@ -432,7 +432,8 @@ h2 {
 .aside-card,
 .consent-card,
 .completion-card,
-.experiment-box {
+.experiment-box,
+.next-step-card {
   padding: 1.4rem;
   border: 1px solid var(--line);
   border-radius: var(--radius);
@@ -448,6 +449,14 @@ h2 {
   margin-block: 1.5rem;
   border-color: var(--green);
   box-shadow: var(--shadow);
+}
+
+.next-step-card {
+  margin-block: 1.5rem;
+}
+
+.next-step-card h2 {
+  margin-top: 0.5rem;
 }
 
 [data-experiment-variant][hidden] {
