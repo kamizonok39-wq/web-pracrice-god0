@@ -27,6 +27,12 @@ This repository contains a learning-oriented static website for practicing Googl
 - Verify all acceptance criteria before declaring implementation complete.
 - Document GA4 measurement ID setup and GitHub Pages deployment in `README.md`.
 
+## GA4 data analysis
+
+- Before acquiring or analyzing GA4 data, read `GA4_DATA_ACQUISITION_RUBRIC.md` completely and treat it as the source of truth for the property, standard period, required metrics, dimensions, interpretation rules, quality checks, and completion criteria.
+- Unless the user explicitly requests a comparison or exclusion, analyze all GA4 visits together and do not exclude synthetic visits by campaign.
+- Separate values returned by GA4 from interpretation, hypotheses, and test specifications. Do not use planned Playwright distributions as observed analytics facts.
+
 ## GitHub communication
 
 - Pull Requestのタイトルと本文は日本語で記述する。

@@ -24,7 +24,8 @@ Google Analytics Data APIから取得した数値と、Measure Gardenのペー�
 - 安全性・イベント検証 ST-SEC-001、ST-SEC-002、ST-GA4-001は実装・自動テスト済み
 - 合成アクセス自動テストは12件すべて合格
 - 再検証 `pw-event-validation-001` は3並列・3セッションが全件成功し、期待イベント不足と定義済み重複なしを確認
-- 今後の改善分析では、まずこの正式実行のUTM campaignを分析対象として使用する
+- 今後の改善分析ではcampaignで除外せず、合成アクセスを模擬訪問データとしてGA4全体を分析対象にする
+- 最大のページ内到達率低下として導線観測スターターの50%→75%（24→12イベント、50%減）を特定し、CTAを関連記事より前へ移動する改善を実装済み
 
 ## 再開時に最初に読むもの
 
@@ -33,12 +34,15 @@ Google Analytics Data APIから取得した数値と、Measure Gardenのペー�
 3. `openspec/changes/build-ga4-learning-site/`
 4. `openspec/changes/add-playwright-synthetic-traffic/`
 5. `PLAYWRIGHT_SYNTHETIC_TRAFFIC_INSTRUCTIONS.md`
-6. このファイル
-7. `verification.md`
+6. `GA4_DATA_ACQUISITION_RUBRIC.md`
+7. このファイル
+8. `verification.md`
 
 ## 分析データの取得
 
 認証情報とOAuthクライアントJSONはリポジトリ外で管理する。数値のGA4プロパティIDは環境変数から渡し、文書やGitへ新たに認証情報を保存しない。
+
+取得項目、追加する切り口、解釈ルール、品質確認、完了条件は `GA4_DATA_ACQUISITION_RUBRIC.md` を正本とする。分析タスクを開始するAIエージェントは、取得前に必ず同ファイルを読み、依頼に明示された例外がない限りルーブリックへ従う。
 
 ```powershell
 .\.venv\Scripts\python.exe scripts\ga_report.py --check-auth
@@ -60,7 +64,7 @@ ADCが失効した場合は、リポジトリ外の `$env:USERPROFILE\.credentia
 - `article_navigation` による内部回遊
 - `outbound_click`
 - `scroll` と `scroll_depth` による到達度
-- UTM campaignによる合成アクセス実行単位
+- 流入構成を説明する場合のsource／medium／campaign
 - HTML上の導線、CTA配置、記事・商品間リンク
 - OpenSpecに定義された期待行動とイベント発火条件
 
@@ -69,13 +73,13 @@ ADCが失効した場合は、リポジトリ外の `$env:USERPROFILE\.credentia
 - 今回の主要データは設計された合成アクセスであり、実利用者の自然行動を代表しない。
 - 少数標本の差を統計的な優劣として断定しない。
 - タイムアウトまたは失敗したセッションも、失敗前のイベントが部分的に計上される。
-- 正式な分析対象は新しい一意な `run_id` を指定し、UTM campaignで抽出する。
+- 特別な比較依頼がない限りcampaignで抽出・除外せず、GA4全体を分析する。
 - GA4の標準レポート反映には時間差がある。Playwrightの完了条件はcollect観測であり、Data API反映ではない。
 - 発見事項、根拠、仮説、期待効果、リスク、確認指標を分けて記載する。
 
 ## 改善からPRまで
 
-1. 分析期間、対象campaign、取得時刻、指標を記録する。
+1. 分析期間、取得時刻、プロパティ、指標、適用したフィルタを記録する。
 2. 数値をサイト構成と照合し、課題候補を優先度付きで提示する。
 3. ユーザーが採用する改善案を承認する。
 4. 承認案に対応するOpenSpecのproposal、design、spec、tasksを作成または更新する。
@@ -90,14 +94,14 @@ PRは合成データに基づく教材上の改善であることを明記し、
 
 通常レポートへの反映後、AIへ次のように依頼する。
 
-> `GA4_ANALYSIS_AND_IMPROVEMENT_WORKFLOW.md` を読み、GA4 Data APIから最新の通常レポートを取得してください。合成アクセスのcampaignを識別し、ページ構成とOpenSpecを照合して改善分析を作成してください。改善案の承認前はサイトを変更せず、承認後にOpenSpec、実装、検証を更新し、日本語PRを作成してください。
+> `GA4_DATA_ACQUISITION_RUBRIC.md` と `GA4_ANALYSIS_AND_IMPROVEMENT_WORKFLOW.md` を読み、ルーブリックに従ってGA4 Data APIから最新データを取得してください。特別な指定がない限りcampaignで除外せず、GA4の取得値を観測事実として分析してください。改善案の承認前はサイトを変更せず、承認後にOpenSpec、実装、検証を更新し、日本語PRを作成してください。
 
 ## 残タスク
 
 - [x] GA4通常レポートの反映状況をData APIで再取得する。
-- [ ] 正式実行 `pw-20260805-headed-c3-full001` をUTM campaignで抽出する。
-- [ ] 数値、ページ導線、イベント仕様を照合して改善候補と優先度を提示する。
-- [ ] 採用する改善案についてユーザー承認を得る。
+- [x] campaignで分離せず、合成アクセスを含む全アクセスを分析対象にする方針を確定する。
+- [x] 数値、ページ導線、イベント仕様を照合して改善候補と優先度を提示する。
+- [x] 導線観測スターターのCTA順序改善についてユーザー承認を得る。
 - [ ] 承認後に改善用OpenSpec、実装、検証、日本語PRを作成する。
 
 Playwright合成アクセステスト自体に未完了タスクはない。追加実行はデータ追加または回帰確認が必要な場合だけ行う。

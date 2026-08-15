@@ -32,7 +32,7 @@ completion_signal: ga4_collect_observed
 report_storage: local_only
 ```
 
-過去の部分実行とdry-runはGA4へ送信済みであり、再実行しても上書きされない。正式分析では一意な `run_id` を指定し、GA4のUTM campaignで対象実行を識別する。
+過去の部分実行とdry-runはGA4へ送信済みであり、再実行しても上書きされない。各実行には追跡可能な一意の `run_id` を指定する。訪問分析では原則としてcampaignで除外せず、比較が明示された場合だけ実行単位の識別に利用する。
 
 ## セットアップと実行コマンド
 
