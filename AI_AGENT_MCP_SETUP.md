@@ -296,9 +296,11 @@ py -m venv .venv
 
 `gcloud auth application-default login` は既存ADCを上書きし得る。実行前に対象Googleアカウントと既存利用を確認する。OAuth JSONのパスや内容を会話、ログ、Gitへ残さない。
 
+確認済みのOAuthクライアントJSONは `$env:USERPROFILE\.credentials\google\oauth-client.json` にある。秘密値を表示せず、リポジトリへコピーしない。PowerShell実行ポリシーで `gcloud.ps1` が拒否される場合があるため、`gcloud.cmd` を使う。
+
 ```powershell
-gcloud auth application-default login `
-  --client-id-file="C:\path\outside-repository\oauth-client.json" `
+gcloud.cmd auth application-default login `
+  --client-id-file="$env:USERPROFILE\.credentials\google\oauth-client.json" `
   --scopes="https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/analytics.readonly"
 ```
 
@@ -311,12 +313,14 @@ gcloud auth application-default login `
 プロパティIDは現在のPowerShellだけへ設定する。
 
 ```powershell
-$env:GA_PROPERTY_ID = "<数字だけのプロパティID>"
+$env:GA_PROPERTY_ID = "547494073"
 .\.venv\Scripts\python.exe scripts\ga_report.py
 Remove-Item Env:GA_PROPERTY_ID
 ```
 
-期待値は、認証成功と読み取り専用レポートの表示である。通常レポートが0でも、反映待ちか権限・プロパティ違いかを切り分ける。
+標準取得期間は `2026-06-01` から今日までである。期待値は、認証成功と読み取り専用レポートの表示である。通常レポートが0でも、反映待ちか権限・プロパティ違いかを切り分ける。
+
+Windowsの社内CA環境では、OAuth通信とgRPC通信で証明書ストアの扱いが異なる。`pip-system-certs` はOAuth側をWindows証明書ストアへ接続し、`ga_report.py` はgRPC用の一時CAバンドルを自動生成して終了時に削除する。`REQUESTS_CA_BUNDLE` の固定設定やSSL検証無効化は行わない。
 
 ## Phase 7 — 任意AIエージェントとMCP
 

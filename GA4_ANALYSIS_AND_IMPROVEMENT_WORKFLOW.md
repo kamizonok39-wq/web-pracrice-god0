@@ -12,6 +12,9 @@ Google Analytics Data APIから取得した数値と、Measure Gardenのペー�
 - GA4測定ID: `G-PE33N5234J`
 - ADC認証と `analytics.readonly` スコープ: 疎通確認済み
 - Google Analytics Data API: 標準レポートとリアルタイムレポートの読取確認済み
+- GA4数値プロパティID: `547494073`
+- 標準取得期間: `2026-06-01` から今日まで
+- 2026-08-15に再認証後の通常・リアルタイム取得を再確認。`page_view` 277、`cta_click` 29、`outbound_click` 18、`scroll_depth` 584を取得
 - 2026-08-05の確認時点では、通常レポートは反映待ちで `page_view` 0、リアルタイムは `page_view` 6、`activeUsers` 1を確認
 - Playwright合成アクセス: 実装済み。画面表示あり／なし、1～5並列を指定可能
 - 50件の逐次実行は部分完了。`pw-20260805T122158Z-a3fd5f` では47セッションでcollectを観測し、46セッションが正常完了
@@ -39,9 +42,12 @@ Google Analytics Data APIから取得した数値と、Measure Gardenのペー�
 
 ```powershell
 .\.venv\Scripts\python.exe scripts\ga_report.py --check-auth
-$env:GA_PROPERTY_ID = "<GA4の数値プロパティID>"
+$env:GA_PROPERTY_ID = "547494073"
 .\.venv\Scripts\python.exe scripts\ga_report.py
+Remove-Item Env:GA_PROPERTY_ID
 ```
+
+ADCが失効した場合は、リポジトリ外の `$env:USERPROFILE\.credentials\google\oauth-client.json` を使って `gcloud.cmd auth application-default login` を再実行する。詳細は `AI_AGENT_MCP_SETUP.md` のPhase 6を正本とする。秘密値やADC本文は読み上げたりGitへ保存したりしない。
 
 通常レポートへ反映されていない場合は、リアルタイムの受信確認だけを接続確認として扱い、改善判断を確定しない。通常集計へ反映された後、同じ期間と条件で再取得する。
 
@@ -88,7 +94,7 @@ PRは合成データに基づく教材上の改善であることを明記し、
 
 ## 残タスク
 
-- [ ] GA4通常レポートの反映状況をData APIで再取得する。
+- [x] GA4通常レポートの反映状況をData APIで再取得する。
 - [ ] 正式実行 `pw-20260805-headed-c3-full001` をUTM campaignで抽出する。
 - [ ] 数値、ページ導線、イベント仕様を照合して改善候補と優先度を提示する。
 - [ ] 採用する改善案についてユーザー承認を得る。

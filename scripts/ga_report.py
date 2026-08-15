@@ -4,10 +4,53 @@
 from __future__ import annotations
 
 import argparse
+import atexit
 import os
+import ssl
 import sys
+import tempfile
 import unicodedata
 from collections.abc import Iterable, Sequence
+from pathlib import Path
+
+import certifi
+
+
+def configure_windows_grpc_roots() -> None:
+    """Let gRPC validate TLS with certifi plus the Windows root store."""
+    if os.name != "nt" or os.getenv("GRPC_DEFAULT_SSL_ROOTS_FILE_PATH"):
+        return
+
+    roots = [
+        ssl.DER_cert_to_PEM_cert(certificate)
+        for certificate, encoding, _trust in ssl.enum_certificates("ROOT")
+        if encoding == "x509_asn"
+    ]
+    handle = tempfile.NamedTemporaryFile(
+        mode="w",
+        encoding="ascii",
+        prefix="measure-garden-grpc-roots-",
+        suffix=".pem",
+        delete=False,
+    )
+    with handle:
+        handle.write(Path(certifi.where()).read_text(encoding="ascii"))
+        handle.write("\n")
+        handle.write("".join(roots))
+
+    bundle_path = handle.name
+    os.environ["GRPC_DEFAULT_SSL_ROOTS_FILE_PATH"] = bundle_path
+
+    def remove_bundle() -> None:
+        try:
+            Path(bundle_path).unlink(missing_ok=True)
+        except OSError:
+            pass
+
+    atexit.register(remove_bundle)
+
+
+configure_windows_grpc_roots()
 
 import google.auth
 from google.analytics.data_v1beta import BetaAnalyticsDataClient
@@ -27,7 +70,8 @@ from google.api_core.exceptions import GoogleAPICallError, PermissionDenied
 
 
 READONLY_SCOPE = "https://www.googleapis.com/auth/analytics.readonly"
-REPORT_DATE_RANGE = DateRange(start_date="6daysAgo", end_date="today")
+REPORT_START_DATE = "2026-06-01"
+REPORT_DATE_RANGE = DateRange(start_date=REPORT_START_DATE, end_date="today")
 MEASUREMENT_ID_PREFIX = "G-"
 
 
@@ -162,7 +206,7 @@ def run_reports(client: BetaAnalyticsDataClient, property_id: str) -> None:
             row[0] = f"{value[:4]}-{value[4:6]}-{value[6:]}"
     daily_rows.sort(key=lambda row: row[0])
     print_table(
-        "1. 過去7日間の日別 page_view",
+        "1. 2026年6月以降の日別 page_view",
         ["日付", "page_view"],
         daily_rows,
     )
@@ -180,7 +224,7 @@ def run_reports(client: BetaAnalyticsDataClient, property_id: str) -> None:
     page_rows = report_rows(page_response)
     page_rows.sort(key=lambda row: (-int(row[1]), row[0]))
     print_table(
-        "2. 過去7日間のページ別 page_view",
+        "2. 2026年6月以降のページ別 page_view",
         ["ページ", "page_view"],
         page_rows,
     )
@@ -197,18 +241,18 @@ def run_reports(client: BetaAnalyticsDataClient, property_id: str) -> None:
     event_rows = report_rows(event_response)
     event_rows.sort(key=lambda row: (-int(row[1]), row[0]))
     print_table(
-        "3. 過去7日間のイベント名別イベント数",
+        "3. 2026年6月以降のイベント名別イベント数",
         ["イベント名", "イベント数"],
         event_rows,
     )
 
     print_table(
-        "4. 過去7日間のCTAイベント",
+        "4. 2026年6月以降のCTAイベント",
         ["イベント名", "イベント数"],
         [["cta_click", event_total(client, property_name, "cta_click")]],
     )
     print_table(
-        "5. 過去7日間の外部リンクイベント",
+        "5. 2026年6月以降の外部リンクイベント",
         ["イベント名", "イベント数"],
         [["outbound_click", event_total(client, property_name, "outbound_click")]],
     )
@@ -228,7 +272,7 @@ def run_reports(client: BetaAnalyticsDataClient, property_id: str) -> None:
     scroll_rows = [[name, count] for name, count in scroll_counts.items()]
     scroll_rows.append(["合計", sum(scroll_counts.values())])
     print_table(
-        "6. 過去7日間のスクロールイベント",
+        "6. 2026年6月以降のスクロールイベント",
         ["イベント名", "イベント数"],
         scroll_rows,
     )
@@ -264,7 +308,7 @@ def main() -> int:
 
         property_id = require_property_id()
         print(f"GA4プロパティ: properties/{property_id}")
-        print("期間: 6daysAgo から today（今日を含む7日間）")
+        print(f"期間: {REPORT_START_DATE} から today（2026年6月以降）")
         client = BetaAnalyticsDataClient(credentials=credentials)
         run_reports(client, property_id)
         return 0

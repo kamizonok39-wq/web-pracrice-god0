@@ -290,18 +290,20 @@ gcloud auth application-default login `
 .\.venv\Scripts\python.exe scripts\ga_report.py --check-auth
 ```
 
-対象の数値プロパティIDを現在のPowerShellセッションへ設定し、レポートを実行します。
+このプロジェクトで確認済みのGA4数値プロパティIDは `547494073` です。現在のPowerShellセッションへ設定し、レポートを実行します。
 
 ```powershell
-$env:GA_PROPERTY_ID = "123456789"
+$env:GA_PROPERTY_ID = "547494073"
 .\.venv\Scripts\python.exe scripts\ga_report.py
 ```
+
+標準取得期間は `2026-06-01` から実行日までです。Windowsでは、ツールがcertifiとWindows証明書ストアからgRPC用の一時CAバンドルを作成し、終了時に削除します。TLS検証は無効化しません。
 
 `.env.example` は設定値の形式を示すだけのファイルです。スクリプトは秘密情報の誤読込を避けるため、`.env` を自動では読み込みません。必要な値は実行環境から渡してください。
 
 ### 出力されるレポート
 
-- 今日を含む過去7日間の日別 `page_view`
+- 2026-06-01から今日までの日別 `page_view`
 - ページパス別 `page_view`
 - イベント名別イベント数
 - `cta_click` の件数

@@ -104,6 +104,22 @@
 - リアルタイムイベント: `scroll_depth` 15、`scroll` 5、`article_navigation` 3、`cta_click` 2、`experiment_impression` 1、`session_start` 1、`first_visit` 1、`user_engagement` 1
 - 改善分析は通常レポート反映後に実施し、合成アクセスのUTM campaignを明示して集計する。
 
+### 2026-08-15 再認証・標準期間取得
+
+- GA4プロパティ: `547494073`
+- ADC再認証: 成功
+- 読み取り専用スコープ: 成功
+- 標準期間: `2026-06-01` から今日まで
+- 通常レポート: 取得成功
+- リアルタイムレポート: 取得成功
+- `page_view`: 277
+- `cta_click`: 29
+- `outbound_click`: 18
+- `scroll_depth`: 584
+- `article_navigation`: 84
+- Windows社内CA対策: `pip-system-certs` とgRPC用一時CAバンドルでTLS検証を維持して成功
+- OAuthクライアントJSONとADCはリポジトリ外で管理し、秘密値は文書・ログ・Gitへ保存していない
+
 ## ゼロスタート環境セットアップ文書監査
 
 実施日: 2026-08-05
